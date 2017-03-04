@@ -1,0 +1,19 @@
+h1 {
+    text-align: center;
+}
+
+#spiral_creator {
+    margin: 20px;
+    width: 100%;
+    text-align:center;
+    display: inline-block;
+}
+
+#my_galaxy {
+    height: 400px;
+    width: 100%;
+}
+
+#params_galaxy {
+    margin-top:40px;
+}

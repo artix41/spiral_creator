@@ -1,0 +1,15 @@
+{
+  "name": "spiral_creator",
+  "version": "1.0.0",
+  "description": "Simulation of Spiral Galaxies",
+  "main": "index.js",
+  "scripts": {
+    "test": "rollup -f umd -n spiral -o build/spiral.js -- index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "rollup": "^0.41.4",
+    "rollup-watch": "^3.2.2"
+  }
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Spiral Creator</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/main.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Spiral Creator</h1>
+            <div id="spiral_creator">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="my_galaxy">
+                            My Galaxy
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="real_galaxy">Real Galaxy</div>
+                        <img src="images/galaxies/ngc6814.jpg" style="width:100%; height:400px;"/>
+                    </div>
+                </div>
+
+                <div class="row" id="params_galaxy">
+                    <div class="col-md-3 col-md-offset-3">
+                        <div id="params_name">Param name :</div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="params_slider">param</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+        <script src="build/spiral.js"></script>
+
+        <script>
+            var spiral_creator = new spiral.SpiralCreator("spiral_creator");
+        </script>
+    </body>
+</html>
