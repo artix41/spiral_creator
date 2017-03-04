@@ -41,6 +41,12 @@ SpiralCreator.prototype.displayStars = function () {
     var layout = {
         paper_bgcolor: 'rgba(44, 62, 80,1.0)',
         plot_bgcolor: '#282830',
+        margin: {
+            l: 0,
+            t: 0,
+            r: 0,
+            b: 0
+        },
         xaxis: {
             showgrid: false,
             zeroline: false,
