@@ -1,5 +1,29 @@
+body {
+    font-family: Arial;
+}
+
+img#logo {
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    width: 60px;
+    height: 60px;
+}
+
 h1 {
+    font-size: 60px;
+    font-weight: bold;
     text-align: center;
+    color: #080810;
+    margin-top: 10px;
+}
+
+h2.subtitle {
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-align: center;
+    color: #686860;
 }
 
 #spiral_creator {
@@ -9,13 +33,14 @@ h1 {
     display: inline-block;
 }
 
-#my_galaxy {
+#my-galaxy {
     height: 400px;
     width: 100%;
 }
 
-#params_galaxy {
-    margin-top:40px;
+#params-galaxy {
+    margin-top:20px;
+    margin-right: 40px;
 }
 
 .ticks {

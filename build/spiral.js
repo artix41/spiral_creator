@@ -63,8 +63,8 @@ function Slider(div, domain, callback, params) {
         .call(d3.drag()
             .on("start.interrupt", function() { slider.interrupt(); })
             .on("start drag", function() {
-                var value = x.invert(d3.event.x);
-                handle.attr("cx", x(value) - margin.right - margin.left);
+                var value = x.invert(d3.event.x - margin.right - margin.left);
+                handle.attr("cx", x(value));
                 callback(value);
             }));
 
@@ -99,10 +99,10 @@ function SpiralCreator(div) {
     this.div = d3.select(div);
     this.myGalaxyDiv = d3.select("#my-galaxy");
     this.params =   {
-        e: {label: "Excentricité", value: 0.8, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2},
-        noise: {label: "Bruit", value: 0.1, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2},
-        nbrStarsInEllipse: {label: "Nombre d'étoiles par ellipse", value: 100, range: [50, 500], scale: d3.scaleLinear(), ticks: 10},
-        nbrEllipses: {label: "Nombre d'ellipses", value: 40, range: [10, 100], scale: d3.scaleLog(), ticks: 2}
+        e: {label: "Excentricity", value: 0.8, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        noise: {label: "Noise", value: 0.1, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 100, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
+        nbrEllipses: {label: "Number of ellipses", value: 40, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0}
     };
 
     this.margin = 25;
@@ -159,12 +159,12 @@ SpiralCreator.prototype.displayParams = function() {
     Object.keys(this.params).forEach(function(p, i) {
         var row = d3.select("#params-galaxy").append("div").attr("class", "row").style("text-align", "left");
         row.append("div").attr("class", "col-md-3")
-        .append("label").attr("class", "param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(1));
+        .append("label").attr("class", "param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(obj.params[p].decimals));
         var slider = row.append("div").attr("class", "col-md-3");
         Slider(slider, obj.params[p].range,
             function(x) {
                 obj.params[p].value = x;
-                d3.select(".param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(1));
+                d3.select(".param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(obj.params[p].decimals));
                 obj.displayStars();
             },
             {'format': d => d.toString(),
