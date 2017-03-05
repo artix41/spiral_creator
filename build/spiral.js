@@ -5,25 +5,24 @@
 }(this, (function (exports) { 'use strict';
 
 function getStarsPosition(params) {
-    var nbrEllipses = 40;
     var positions = [];
-    for (var iTraj = 0; iTraj < nbrEllipses; iTraj++) {
+    for (var iTraj = 0; iTraj < params.nbrEllipses.value; iTraj++) {
         var a = iTraj + 1;
-        var b = params.e * (iTraj + 1);
-        var angle = (iTraj / nbrEllipses) * Math.PI / 2;
-        var X = _.range(100).map(() => getStarOnEllipse(a,b,angle));
+        var b = params.e.value * (iTraj + 1);
+        var angle = (iTraj / params.nbrEllipses.value) * Math.PI * 2;
+        var X = _.range(params.nbrStarsInEllipse.value).map(() => getStarOnEllipse(a, b, angle, params.noise.value));
         positions = positions.concat(X);
     }
     return positions;
 }
 
-function getStarOnEllipse(a, b, angle) {
+function getStarOnEllipse(a, b, angle, noise) {
     var t = Math.random() * 2 * Math.PI;
     var X = [a * Math.cos(t), b * Math.sin(t)];
     var A = [[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]];
     var position = numeric.dot(A,X);
 
-    return {x: position[0], y: position[1]};
+    return {x: position[0] + rnorm(0,noise), y: position[1] + rnorm(0,noise)};
 }
 
 function Slider(div, domain, callback, params) {
@@ -65,7 +64,7 @@ function Slider(div, domain, callback, params) {
             .on("start.interrupt", function() { slider.interrupt(); })
             .on("start drag", function() {
                 var value = x.invert(d3.event.x);
-                handle.attr("cx", x(value));
+                handle.attr("cx", x(value) - margin.right - margin.left);
                 callback(value);
             }));
 
@@ -99,16 +98,19 @@ function Slider(div, domain, callback, params) {
 function SpiralCreator(div) {
     this.div = d3.select(div);
     this.myGalaxyDiv = d3.select("#my-galaxy");
-    this.params = {e: 2};
+    this.params =   {
+        e: {label: "Excentricité", value: 0.8, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2},
+        noise: {label: "Bruit", value: 0.1, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2},
+        nbrStarsInEllipse: {label: "Nombre d'étoiles par ellipse", value: 100, range: [50, 500], scale: d3.scaleLinear(), ticks: 10},
+        nbrEllipses: {label: "Nombre d'ellipses", value: 40, range: [10, 100], scale: d3.scaleLog(), ticks: 2}
+    };
 
     this.margin = 25;
     this.widthCurve = this.myGalaxyDiv.nodes()[0].offsetWidth;
-    console.log(this.widthCurve);
     this.heightCurve = 400;
-
     this.colorPoint = "rgba(255, 245, 242,1.0)";
-    this.sizePoint = 2;
-    this.bgColor = '#282830';
+    this.sizePoint = 1;
+    this.bgColor = '#080810';
 
     this.displayParams();
     this.displayStars();
@@ -123,7 +125,6 @@ SpiralCreator.prototype.updateData = function() {
 SpiralCreator.prototype.displayStars = function () {
     var starsPosition = getStarsPosition(this.params);
     var data = starsPosition;
-    console.log(data);
 
     this.myGalaxyDiv.selectAll("svg").data([]).exit().remove();
     var myGalaxySvg = this.myGalaxyDiv.append("svg")
@@ -152,18 +153,28 @@ SpiralCreator.prototype.redraw = function() {
     Plotly.redraw(this.myGalaxyDiv);
 };
 
+
 SpiralCreator.prototype.displayParams = function() {
     var obj = this;
-    d3.select("#params-name").append("label").text("Excentricité :");
-    Slider(d3.select("#params-slider"), [0.1, 10],
-        function(x) { console.log(x); obj.params.e = x; obj.displayStars(); },
-        {'format': function(d) { return d.toString(); },
-          'initial': 2,
-          'scale': d3.scaleLinear(),
-          'ticks': 10
-        }
-    );
+    Object.keys(this.params).forEach(function(p, i) {
+        var row = d3.select("#params-galaxy").append("div").attr("class", "row").style("text-align", "left");
+        row.append("div").attr("class", "col-md-3")
+        .append("label").attr("class", "param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(1));
+        var slider = row.append("div").attr("class", "col-md-3");
+        Slider(slider, obj.params[p].range,
+            function(x) {
+                obj.params[p].value = x;
+                d3.select(".param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(1));
+                obj.displayStars();
+            },
+            {'format': d => d.toString(),
+              'initial': obj.params[p].value,
+              'scale': obj.params[p].scale,
+              'ticks': obj.params[p].ticks
+            }
+        );
 
+    });
 };
 
 exports.SpiralCreator = SpiralCreator;

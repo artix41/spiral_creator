@@ -4,16 +4,19 @@ import {Slider} from "./slider"
 export function SpiralCreator(div) {
     this.div = d3.select(div);
     this.myGalaxyDiv = d3.select("#my-galaxy");
-    this.params = {e: 2};
+    this.params =   {
+        e: {label: "Excentricité", value: 0.8, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2},
+        noise: {label: "Bruit", value: 0.1, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2},
+        nbrStarsInEllipse: {label: "Nombre d'étoiles par ellipse", value: 100, range: [50, 500], scale: d3.scaleLinear(), ticks: 10},
+        nbrEllipses: {label: "Nombre d'ellipses", value: 40, range: [10, 100], scale: d3.scaleLog(), ticks: 2}
+    };
 
     this.margin = 25;
     this.widthCurve = this.myGalaxyDiv.nodes()[0].offsetWidth;
-    console.log(this.widthCurve)
     this.heightCurve = 400;
-
     this.colorPoint = "rgba(255, 245, 242,1.0)";
-    this.sizePoint = 2;
-    this.bgColor = '#282830';
+    this.sizePoint = 1;
+    this.bgColor = '#080810';
 
     this.displayParams();
     this.displayStars();
@@ -28,7 +31,6 @@ SpiralCreator.prototype.updateData = function() {
 SpiralCreator.prototype.displayStars = function () {
     var starsPosition = getStarsPosition(this.params);
     var data = starsPosition;
-    console.log(data)
 
     this.myGalaxyDiv.selectAll("svg").data([]).exit().remove();
     var myGalaxySvg = this.myGalaxyDiv.append("svg")
@@ -57,16 +59,26 @@ SpiralCreator.prototype.redraw = function() {
     Plotly.redraw(this.myGalaxyDiv);
 }
 
+
 SpiralCreator.prototype.displayParams = function() {
     var obj = this;
-    d3.select("#params-name").append("label").text("Excentricité :")
-    Slider(d3.select("#params-slider"), [0.1, 10],
-        function(x) { console.log(x); obj.params.e = x; obj.displayStars(); },
-        {'format': function(d) { return d.toString(); },
-          'initial': 2,
-          'scale': d3.scaleLinear(),
-          'ticks': 10
-        }
-    );
+    Object.keys(this.params).forEach(function(p, i) {
+        var row = d3.select("#params-galaxy").append("div").attr("class", "row").style("text-align", "left");
+        row.append("div").attr("class", "col-md-3")
+        .append("label").attr("class", "param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(1));
+        var slider = row.append("div").attr("class", "col-md-3");
+        Slider(slider, obj.params[p].range,
+            function(x) {
+                obj.params[p].value = x;
+                d3.select(".param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(1));
+                obj.displayStars();
+            },
+            {'format': d => d.toString(),
+              'initial': obj.params[p].value,
+              'scale': obj.params[p].scale,
+              'ticks': obj.params[p].ticks
+            }
+        );
 
+    });
 }

@@ -37,7 +37,7 @@ export function Slider(div, domain, callback, params) {
             .on("start.interrupt", function() { slider.interrupt(); })
             .on("start drag", function() {
                 var value = x.invert(d3.event.x);
-                handle.attr("cx", x(value));
+                handle.attr("cx", x(value) - margin.right - margin.left);
                 callback(value);
             }));
 

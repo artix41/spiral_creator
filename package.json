@@ -11,5 +11,8 @@
   "devDependencies": {
     "rollup": "^0.41.4",
     "rollup-watch": "^3.2.2"
+  },
+  "dependencies": {
+    "randgen": "^0.1.0"
   }
 }
