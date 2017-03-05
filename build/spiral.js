@@ -99,10 +99,10 @@ function SpiralCreator(div) {
     this.div = d3.select(div);
     this.myGalaxyDiv = d3.select("#my-galaxy");
     this.params =   {
-        e: {label: "Excentricity", value: 0.8, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        noise: {label: "Noise", value: 0.1, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 100, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
-        nbrEllipses: {label: "Number of ellipses", value: 40, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0}
+        e: {label: "Excentricity", value: 1.3, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        noise: {label: "Noise", value: 0.5, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 200, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
+        nbrEllipses: {label: "Number of ellipses", value: 60, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0}
     };
 
     this.margin = 25;
