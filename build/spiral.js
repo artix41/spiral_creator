@@ -109,17 +109,40 @@ function SpiralCreator(div) {
     this.widthCurve = this.myGalaxyDiv.nodes()[0].offsetWidth;
     this.heightCurve = 400;
     this.colorPoint = "rgba(255, 245, 242,1.0)";
-    this.sizePoint = 1;
+    this.sizePoint = 15;
     this.bgColor = '#080810';
 
     this.displayParams();
     this.displayStars();
 }
 
-SpiralCreator.prototype.updateData = function() {
-    var starsPosition = getStarsPosition(this.params);
-    this.data.x = starsPosition.x;
-    this.data.y = starsPosition.y;
+SpiralCreator.prototype.createGradientColor = function(svg) {
+    var gradient = svg.append("svg:defs")
+    .append("svg:radialGradient")
+    .attr("id", "gradientStar")
+    .attr("cx", 0.25)
+    .attr("cy", 0.25)
+    .attr("r", 0.25);
+
+    gradient.append("svg:stop")
+    .attr("offset", "0%")
+    .attr("stop-color", this.colorPoint)
+    .attr("stop-opacity", 1);
+
+    gradient.append("svg:stop")
+    .attr("offset", "25%")
+    .attr("stop-color", this.colorPoint)
+    .attr("stop-opacity", 0.1);
+
+    gradient.append("svg:stop")
+    .attr("offset", "75%")
+    .attr("stop-color", this.colorPoint)
+    .attr("stop-opacity", 0.05);
+
+    gradient.append("svg:stop")
+    .attr("offset", "100%")
+    .attr("stop-color", this.colorPoint)
+    .attr("stop-opacity", 0);
 };
 
 SpiralCreator.prototype.displayStars = function () {
@@ -130,6 +153,8 @@ SpiralCreator.prototype.displayStars = function () {
     var myGalaxySvg = this.myGalaxyDiv.append("svg")
     .attr("width", this.widthCurve).attr("height", this.heightCurve)
     .attr("style", "background-color: " + this.bgColor);
+
+    this.createGradientColor(myGalaxySvg);
 
     var circle = myGalaxySvg.selectAll("circle").data(data).enter().append("circle");
 
@@ -142,9 +167,9 @@ SpiralCreator.prototype.displayStars = function () {
     .range([this.margin,this.heightCurve - this.margin]);
 
     circle.attr("r", this.sizePoint)
-    .attr("fill", this.colorPoint)
     .attr("cx", d => xScale(d.x))
-    .attr("cy", d => yScale(d.y));
+    .attr("cy", d => yScale(d.y))
+    .attr("fill", "url(#gradientStar)");
 
 };
 
