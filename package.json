@@ -4,6 +4,8 @@
   "description": "Simulation of Spiral Galaxies",
   "main": "index.js",
   "scripts": {
+    "watch": "rollup --watch -f umd -n spiral -o build/spiral.js -- index.js",
+    "pretest": "cjs-to-es6 ./node_modules/three-orbit-controls/index.js",
     "test": "rollup -f umd -n spiral -o build/spiral.js -- index.js"
   },
   "author": "",
@@ -13,6 +15,8 @@
     "rollup-watch": "^3.2.2"
   },
   "dependencies": {
-    "randgen": "^0.1.0"
+    "cjs-to-es6": "^1.0.1",
+    "randgen": "^0.1.0",
+    "three-orbit-controls": "^82.1.0"
   }
 }

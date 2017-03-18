@@ -1,7 +1,7 @@
 import {getStarsPosition} from "./spiral_generator"
 import {Slider} from "./slider"
 
-export function SpiralCreator(div) {
+export function SpiralCreator2D(div) {
     this.div = d3.select(div);
     this.myGalaxyDiv = d3.select("#my-galaxy");
     this.params =   {
@@ -15,7 +15,7 @@ export function SpiralCreator(div) {
     this.widthCurve = this.myGalaxyDiv.nodes()[0].offsetWidth;
     this.heightCurve = 400;
     this.colorPoint = "#DBE3EB";
-    this.sizePoint = 15; // 15
+    this.sizePoint = 15;
     this.bgColor = '#080810';
 
     this.canvas = this.myGalaxyDiv.append("canvas")
@@ -27,7 +27,7 @@ export function SpiralCreator(div) {
     this.displayStars();
 }
 
-SpiralCreator.prototype.createGradientColor = function() {
+SpiralCreator2D.prototype.createGradientColor = function() {
     var colorToRgba = function(hex, opacity) {
         var rgbColor = "rgba("
         rgbColor = rgbColor.concat(parseInt(hex.slice(1,3), 16), ",");
@@ -47,7 +47,7 @@ SpiralCreator.prototype.createGradientColor = function() {
 
 }
 
-SpiralCreator.prototype.createStarImage = function(gradient) {
+SpiralCreator2D.prototype.createStarImage = function(gradient) {
     var starCanvas = document.createElement('canvas'); // offscreen canvas to create a star
     starCanvas.width = this.sizePoint * 2;
     starCanvas.height = this.sizePoint * 2;
@@ -60,7 +60,7 @@ SpiralCreator.prototype.createStarImage = function(gradient) {
     return starCanvas;
 }
 
-SpiralCreator.prototype.displayStars = function () {
+SpiralCreator2D.prototype.displayStars = function () {
     var data = getStarsPosition(this.params);
 
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.width);
@@ -85,7 +85,7 @@ SpiralCreator.prototype.displayStars = function () {
 
 };
 
-SpiralCreator.prototype.displayParams = function() {
+SpiralCreator2D.prototype.displayParams = function() {
     var obj = this;
     Object.keys(this.params).forEach(function(p, i) {
         var row = d3.select("#params-galaxy").append("div").attr("class", "row").style("text-align", "left");
