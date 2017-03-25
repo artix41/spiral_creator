@@ -14,7 +14,6 @@ function getStarsPosition(params) {
         var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(a, b, angle, params.noise.value));
         positions = positions.concat(X);
     }
-    console.log(performance.now() - t0 + " ms");
     return positions;
 }
 
@@ -29,15 +28,14 @@ function generateStarOnEllipse(a, b, angle, noise) {
     return {x: position[0], y: position[1], t: t, a: noisyA, b: noisyB, angle: angle};
 }
 
-function Star(sprite, t, a, b, angle) {
-    this.sprite = sprite;
+function Trajectory(t, a, b, angle) {
     this.t = t;
     this.a = a;
     this.b = b;
     this.angle = angle;
 }
 
-Star.prototype.getPosition = function() {
+Trajectory.prototype.getPosition = function() {
     var X = [this.a * Math.cos(this.t), this.b * Math.sin(this.t)];
     var A = [[Math.cos(this.angle), -Math.sin(this.angle)], [Math.sin(this.angle), Math.cos(this.angle)]];
     var position = numeric.dot(A,X);
@@ -45,7 +43,7 @@ Star.prototype.getPosition = function() {
     return {x: position[0], y: position[1]};
 };
 
-Star.prototype.update = function (speed) {
+Trajectory.prototype.update = function (speed) {
     this.t += speed;
     this.t %= 2 * Math.PI;
 };
@@ -1256,39 +1254,16 @@ function SpiralCreator3D(div) {
     this.widthGalaxy = this.myGalaxyDiv.offsetWidth;
     this.heightGalaxy = 400;
     this.colorStar = "#DBE3EB";
-    this.radiusStar = 30;
-    this.speed = 0.1;
+    this.radiusStar = 5;
+    this.speed = 0.01;
 
     this.params =   {
         e: {label: "Excentricity", value: 1.3, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
         noise: {label: "Noise", value: 0.5, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
         nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 100, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
-        nbrEllipses: {label: "Number of ellipses", value: 50, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0}
+        nbrEllipses: {label: "Number of ellipses", value: 50, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
+        speed: {label: "Speed", value: 0.02, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
     };
-
-    /*var colorToRgba = function(hex, opacity) {
-        var rgbColor = "rgba("
-        rgbColor = rgbColor.concat(parseInt(hex.slice(1,3), 16), ",");
-        rgbColor = rgbColor.concat(parseInt(hex.slice(3,5), 16), ",");
-        rgbColor = rgbColor.concat(parseInt(hex.slice(5,7), 16), ",");
-        rgbColor = rgbColor.concat(opacity, ")");
-
-        return rgbColor
-    };
-
-    var c=document.getElementById("canvas");
-
-    var ctx=c.getContext("2d");
-
-    var gradient=ctx.createRadialGradient(this.radiusStar / 2, this.radiusStar / 2, 0, this.radiusStar / 2,this.radiusStar / 2,this.radiusStar/2);
-    console.log(colorToRgba(this.colorStar, 1))
-    gradient.addColorStop(0, colorToRgba(this.colorStar, 1));
-    gradient.addColorStop(0.25,colorToRgba(this.colorStar, 0.1));
-    gradient.addColorStop(0.75,colorToRgba(this.colorStar, 0.05));
-    gradient.addColorStop(1,colorToRgba(this.colorStar, 0));
-
-    ctx.fillStyle=gradient;
-    ctx.fillRect(10,10,150,100);*/
 
     this.displayParams();
     this.initRenderer();
@@ -1297,25 +1272,22 @@ function SpiralCreator3D(div) {
     var obj = this;
     function animate() {
         requestAnimationFrame(animate);
-        for(var i = 0; i < obj.stars.length; i++) {
-            obj.stars[i].update(obj.speed);
-            obj.stars[i].sprite.position.x = obj.xScale(obj.stars[i].getPosition().x);
-            obj.stars[i].sprite.position.y = obj.yScale(obj.stars[i].getPosition().y);
+        for(var i = 0; i < obj.stars.vertices.length; i++) {
+            obj.stars.vertices[i].traj.update(obj.params.speed.value);
+            obj.stars.vertices[i].x = obj.xScale(obj.stars.vertices[i].traj.getPosition().x);
+            obj.stars.vertices[i].y = obj.yScale(obj.stars.vertices[i].traj.getPosition().y);
         }
+        obj.starsSystem.geometry.verticesNeedUpdate = true;
         obj.renderer.render(obj.scene, obj.camera);
     }
     this.renderer.render(this.scene, this.camera);
     animate();
 }
 
-SpiralCreator3D.prototype.clearScene = function(nStars) {
-    var obj = this;
-    _.range(nStars).forEach(function(d,i) {
-        var selectedObject = obj.scene.getObjectByName("star" + i);
-        if(selectedObject) {
-            obj.scene.remove(selectedObject);
-        }
-    });
+SpiralCreator3D.prototype.clearScene = function() {
+    var selectedObject = this.scene.getObjectByName("starsSystem");
+    this.scene.remove(selectedObject);
+
 };
 
 SpiralCreator3D.prototype.initRenderer = function(){
@@ -1339,12 +1311,19 @@ SpiralCreator3D.prototype.initRenderer = function(){
 };
 
 SpiralCreator3D.prototype.initStars = function() {
-    //var spriteMap = new THREE.Texture(starImage)
     var spriteMap = new THREE.TextureLoader().load("particle.png");
-    var material = new THREE.SpriteMaterial({ map: spriteMap, color: 0xffffff, fog: true, lights: true });
+    var material = new THREE.PointsMaterial({
+        map: spriteMap,
+        color: 0xffffff,
+        size: this.radiusStar,
+        blending: THREE.AdditiveBlending,
+        transparent: true
+    });
+
+    this.stars = new THREE.Geometry();
 
     var data = getStarsPosition(this.params);
-    this.clearScene(data.length);
+    this.clearScene();
 
     this.xScale = d3.scaleLinear()
     .domain([d3.min(data, d => d.x), d3.max(data, d => d.x)])
@@ -1354,18 +1333,18 @@ SpiralCreator3D.prototype.initStars = function() {
     .domain([d3.min(data, d => d.y), d3.max(data, d => d.y)])
     .range([-200,200]);
 
-    this.stars = [];
     var obj = this;
-    var t0 = performance.now();
     data.forEach(function(d, i) {
-        obj.stars.push(new Star(new THREE.Sprite(material), d.t, d.a, d.b, d.angle));
-        obj.stars[i].sprite.position.x = obj.xScale(d.x);
-        obj.stars[i].sprite.position.y = obj.yScale(d.y);
-        obj.stars[i].sprite.scale.set(5,5,1);
-        obj.stars[i].sprite.name = "star" + i;
-        obj.scene.add(obj.stars[i].sprite);
+        obj.stars.vertices.push(new THREE.Vector3(obj.xScale(d.x), obj.xScale(d.y), 0));
+        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle);
+        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle);
     });
-    console.log("Total : ",  performance.now() - t0 + " ms");
+
+    this.starsSystem = new THREE.Points(this.stars, material);
+    this.starsSystem.sortParticles = true;
+    this.starsSystem.name = "starsSystem";
+
+    this.scene.add(this.starsSystem);
 };
 
 SpiralCreator3D.prototype.displayParams = function() {

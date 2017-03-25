@@ -8,7 +8,6 @@ export function getStarsPosition(params) {
         var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(a, b, angle, params.noise.value));
         positions = positions.concat(X)
     }
-    console.log(performance.now() - t0 + " ms")
     return positions;
 }
 
@@ -23,15 +22,14 @@ function generateStarOnEllipse(a, b, angle, noise) {
     return {x: position[0], y: position[1], t: t, a: noisyA, b: noisyB, angle: angle};
 }
 
-export function Star(sprite, t, a, b, angle) {
-    this.sprite = sprite;
+export function Trajectory(t, a, b, angle) {
     this.t = t;
     this.a = a;
     this.b = b;
     this.angle = angle;
 }
 
-Star.prototype.getPosition = function() {
+Trajectory.prototype.getPosition = function() {
     var X = [this.a * Math.cos(this.t), this.b * Math.sin(this.t)];
     var A = [[Math.cos(this.angle), -Math.sin(this.angle)], [Math.sin(this.angle), Math.cos(this.angle)]];
     var position = numeric.dot(A,X);
@@ -39,7 +37,7 @@ Star.prototype.getPosition = function() {
     return {x: position[0], y: position[1]};
 }
 
-Star.prototype.update = function (speed) {
+Trajectory.prototype.update = function (speed) {
     this.t += speed;
     this.t %= 2 * Math.PI;
 };
