@@ -1259,9 +1259,9 @@ function SpiralCreator3D(div) {
 
     this.params =   {
         e: {label: "Excentricity", value: 1.3, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        noise: {label: "Noise", value: 0.5, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 100, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
-        nbrEllipses: {label: "Number of ellipses", value: 50, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
+        noise: {label: "Noise", value: 0.8, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 400, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
+        nbrEllipses: {label: "Number of ellipses", value: 100, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
         speed: {label: "Speed", value: 0.02, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
     };
 
@@ -1317,13 +1317,13 @@ SpiralCreator3D.prototype.initStars = function() {
         color: 0xffffff,
         size: this.radiusStar,
         blending: THREE.AdditiveBlending,
-        transparent: true
+        transparent: true,
+        depthWrite: false
     });
 
     this.stars = new THREE.Geometry();
 
     var data = getStarsPosition(this.params);
-    this.clearScene();
 
     this.xScale = d3.scaleLinear()
     .domain([d3.min(data, d => d.x), d3.max(data, d => d.x)])
@@ -1344,6 +1344,7 @@ SpiralCreator3D.prototype.initStars = function() {
     this.starsSystem.sortParticles = true;
     this.starsSystem.name = "starsSystem";
 
+    this.clearScene();
     this.scene.add(this.starsSystem);
 };
 
