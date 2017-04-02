@@ -41,3 +41,15 @@ Trajectory.prototype.update = function (speed) {
     this.t += speed;
     this.t %= 2 * Math.PI;
 };
+
+Trajectory.prototype.display = function() {
+    var material = new THREE.LineBasicMaterial({color:0xff0000, opacity:1});
+    var ellipse = new THREE.EllipseCurve(0, 0, this.a, this.b, Math.max(this.a, this.b), 0, 2.0 * Math.PI, false, this.angle);
+    var ellipsePath = new THREE.CurvePath();
+    ellipsePath.add(ellipse);
+
+    var ellipseGeometry = ellipsePath.createPointsGeometry(100);
+    var line = new THREE.Line(ellipseGeometry, material);
+
+    return line;
+};

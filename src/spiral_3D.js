@@ -20,6 +20,9 @@ export function SpiralCreator3D(div) {
         speed: {label: "Speed", value: 0.02, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
     };
 
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+
     this.displayParams();
     this.initRenderer();
     this.initStars();
@@ -101,6 +104,34 @@ SpiralCreator3D.prototype.initStars = function() {
 
     this.clearScene();
     this.scene.add(this.starsSystem);
+
+    document.addEventListener('mousedown', (event) => clickOnStar(event, this), false);
+};
+
+function clickOnStar (event, obj) {
+    obj.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	obj.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+    obj.raycaster.setFromCamera(obj.mouse, obj.camera);
+
+    var intersects = obj.raycaster.intersectObjects(obj.scene.children);
+    var material = new THREE.LineBasicMaterial({
+        color: 0x00ff00
+    });
+    var geometry = new THREE.Geometry();
+
+    geometry.vertices.push(new THREE.Vector3(obj.raycaster.ray.origin.x, obj.raycaster.ray.origin.y, obj.raycaster.ray.origin.z));
+    geometry.vertices.push(new THREE.Vector3(obj.raycaster.ray.origin.x + (obj.raycaster.ray.direction.x * 100000), obj.raycaster.ray.origin.y + (obj.raycaster.ray.direction.y * 100000), obj.raycaster.ray.origin.z + (obj.raycaster.ray.direction.z * 100000)));
+    var line = new THREE.Line(geometry, material);
+    obj.scene.add(line);
+
+    if (intersects.length > 0) {
+        var star = obj.stars.vertices[intersects[0].index]
+        obj.scene.add(star.traj.display());
+        console.log(star.traj)
+        //star.color.setRGB(255,0,0);
+
+    }
 };
 
 SpiralCreator3D.prototype.displayParams = function() {
