@@ -14,10 +14,12 @@ export function SpiralCreator3D(div) {
 
     this.params =   {
         e: {label: "Excentricity", value: 1.3, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        noise: {label: "Noise", value: 0.8, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        noise: {label: "Noise", value: 0.8, range: [0.01, 10], scale: d3.scaleLog(), ticks: 3, decimals: 2},
         nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 400, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
         nbrEllipses: {label: "Number of ellipses", value: 100, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
         speed: {label: "Speed", value: 0.02, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        radiusPerturbation: {label: "Radius of perturbation", value: 1, range:[0.001, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        freqPerturbation: {label: "Frequency of perturbation", value: 10, range: [0, 10], scale: d3.scaleLinear(), ticks: 11, decimal:0}
     };
 
     this.displayParams();
@@ -91,8 +93,8 @@ SpiralCreator3D.prototype.initStars = function() {
     var obj = this;
     data.forEach(function(d, i) {
         obj.stars.vertices.push(new THREE.Vector3(obj.xScale(d.x), obj.xScale(d.y), 0));
-        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle);
-        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle);
+        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle, d.radiusPerturbation, d.freqPerturbation);
+        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle, d.radiusPerturbation, d.freqPerturbation);
     });
 
     this.starsSystem = new THREE.Points(this.stars, material);

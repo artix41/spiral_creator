@@ -11,36 +11,51 @@ function getStarsPosition(params) {
         var a = iTraj + 1;
         var b = params.e.value * (iTraj + 1);
         var angle = (iTraj / params.nbrEllipses.value) * Math.PI * 2;
-        var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(a, b, angle, params.noise.value));
+        var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(
+            a,
+            b,
+            angle,
+            params.radiusPerturbation.value,
+            params.freqPerturbation.value,
+            params.noise.value
+        ));
         positions = positions.concat(X);
     }
     return positions;
 }
 
-function generateStarOnEllipse(a, b, angle, noise) {
+function generateStarOnEllipse(a, b, angle, radiusPerturbation, freqPerturbation, noise) {
     var t = Math.random() * 2 * Math.PI;
     var noisyA = a + rnorm(0,noise);
     var noisyB = b + rnorm(0,noise);
-    var X = [noisyA * Math.cos(t), noisyB * Math.sin(t)];
-    var A = [[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]];
-    var position = numeric.dot(A,X);
+    var position = getPosition(t, a, b, angle, radiusPerturbation, freqPerturbation);
 
-    return {x: position[0], y: position[1], t: t, a: noisyA, b: noisyB, angle: angle};
+    return {x: position.x, y: position.y, t: t, a: noisyA, b: noisyB, angle: angle,
+            radiusPerturbation: radiusPerturbation, freqPerturbation: freqPerturbation};
 }
 
-function Trajectory(t, a, b, angle) {
+function Trajectory(t, a, b, angle, radiusPerturbation, freqPerturbation) {
     this.t = t;
     this.a = a;
     this.b = b;
     this.angle = angle;
+    this.radiusPerturbation = radiusPerturbation;
+    this.freqPerturbation = freqPerturbation;
+}
+
+function getPosition(t, a, b, angle, radiusPerturbation, freqPerturbation) {
+    var X = [a * Math.cos(t), b * Math.sin(t)];
+    var A = [[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]];
+    var position = numeric.dot(A,X);
+
+    position[0] += radiusPerturbation * Math.cos(2 * freqPerturbation * t);
+    position[1] += radiusPerturbation * Math.sin(2 * freqPerturbation * t);
+
+    return {x: position[0], y: position[1]};
 }
 
 Trajectory.prototype.getPosition = function() {
-    var X = [this.a * Math.cos(this.t), this.b * Math.sin(this.t)];
-    var A = [[Math.cos(this.angle), -Math.sin(this.angle)], [Math.sin(this.angle), Math.cos(this.angle)]];
-    var position = numeric.dot(A,X);
-
-    return {x: position[0], y: position[1]};
+    return getPosition(this.t, this.a, this.b, this.angle, this.radiusPerturbation, this.freqPerturbation);
 };
 
 Trajectory.prototype.update = function (speed) {
@@ -1259,10 +1274,12 @@ function SpiralCreator3D(div) {
 
     this.params =   {
         e: {label: "Excentricity", value: 1.3, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        noise: {label: "Noise", value: 0.8, range: [0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        noise: {label: "Noise", value: 0.8, range: [0.01, 10], scale: d3.scaleLog(), ticks: 3, decimals: 2},
         nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 400, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
         nbrEllipses: {label: "Number of ellipses", value: 100, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
         speed: {label: "Speed", value: 0.02, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        radiusPerturbation: {label: "Radius of perturbation", value: 1, range:[0.001, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        freqPerturbation: {label: "Frequency of perturbation", value: 10, range: [0, 10], scale: d3.scaleLinear(), ticks: 11, decimal:0}
     };
 
     this.displayParams();
@@ -1336,8 +1353,8 @@ SpiralCreator3D.prototype.initStars = function() {
     var obj = this;
     data.forEach(function(d, i) {
         obj.stars.vertices.push(new THREE.Vector3(obj.xScale(d.x), obj.xScale(d.y), 0));
-        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle);
-        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle);
+        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle, d.radiusPerturbation, d.freqPerturbation);
+        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle, d.radiusPerturbation, d.freqPerturbation);
     });
 
     this.starsSystem = new THREE.Points(this.stars, material);

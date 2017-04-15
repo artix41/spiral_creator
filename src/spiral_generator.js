@@ -5,36 +5,51 @@ export function getStarsPosition(params) {
         var a = iTraj + 1;
         var b = params.e.value * (iTraj + 1);
         var angle = (iTraj / params.nbrEllipses.value) * Math.PI * 2;
-        var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(a, b, angle, params.noise.value));
+        var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(
+            a,
+            b,
+            angle,
+            params.radiusPerturbation.value,
+            params.freqPerturbation.value,
+            params.noise.value
+        ));
         positions = positions.concat(X)
     }
     return positions;
 }
 
-function generateStarOnEllipse(a, b, angle, noise) {
+function generateStarOnEllipse(a, b, angle, radiusPerturbation, freqPerturbation, noise) {
     var t = Math.random() * 2 * Math.PI;
     var noisyA = a + rnorm(0,noise);
     var noisyB = b + rnorm(0,noise);
-    var X = [noisyA * Math.cos(t), noisyB * Math.sin(t)];
-    var A = [[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]];
-    var position = numeric.dot(A,X);
+    var position = getPosition(t, a, b, angle, radiusPerturbation, freqPerturbation);
 
-    return {x: position[0], y: position[1], t: t, a: noisyA, b: noisyB, angle: angle};
+    return {x: position.x, y: position.y, t: t, a: noisyA, b: noisyB, angle: angle,
+            radiusPerturbation: radiusPerturbation, freqPerturbation: freqPerturbation};
 }
 
-export function Trajectory(t, a, b, angle) {
+export function Trajectory(t, a, b, angle, radiusPerturbation, freqPerturbation) {
     this.t = t;
     this.a = a;
     this.b = b;
     this.angle = angle;
+    this.radiusPerturbation = radiusPerturbation;
+    this.freqPerturbation = freqPerturbation;
+}
+
+function getPosition(t, a, b, angle, radiusPerturbation, freqPerturbation) {
+    var X = [a * Math.cos(t), b * Math.sin(t)];
+    var A = [[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]];
+    var position = numeric.dot(A,X);
+
+    position[0] += radiusPerturbation * Math.cos(2 * freqPerturbation * t);
+    position[1] += radiusPerturbation * Math.sin(2 * freqPerturbation * t);
+
+    return {x: position[0], y: position[1]};
 }
 
 Trajectory.prototype.getPosition = function() {
-    var X = [this.a * Math.cos(this.t), this.b * Math.sin(this.t)];
-    var A = [[Math.cos(this.angle), -Math.sin(this.angle)], [Math.sin(this.angle), Math.cos(this.angle)]];
-    var position = numeric.dot(A,X);
-
-    return {x: position[0], y: position[1]};
+    return getPosition(this.t, this.a, this.b, this.angle, this.radiusPerturbation, this.freqPerturbation);
 }
 
 Trajectory.prototype.update = function (speed) {
