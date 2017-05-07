@@ -17,7 +17,7 @@ npm run serve
 
 The site will be accessible at http://127.0.0.1:8080
 
-# How to develop it?
+## How to develop it?
 
 This application uses ES2016 version of Javascript, so you need to compile it in order to see it on a web browser.
 In order to develop without worrying about compilation, just execute:
