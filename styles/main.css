@@ -1,6 +1,11 @@
+* {
+    box-sizing: border-box; /* width does not include padding and border */
+}
+
 body {
     font-family: Arial;
     background-color: rgb(228, 241, 254);
+    overflow-x: hidden;
 }
 
 img#logo {
@@ -27,7 +32,7 @@ h2.subtitle {
     color: #686860;
 }
 
-#spiral_creator {
+#spiral-creator {
     margin: 20px;
     width: 100%;
     text-align:center;
@@ -39,9 +44,75 @@ h2.subtitle {
     width: 100%;
 }
 
+#real-galaxy {
+    height: 400px;
+    width: 100%;
+
+    background-color: #000000;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 #params-galaxy {
     margin-top:20px;
     margin-right: 40px;
+}
+
+#all-thumbnails {
+    opacity: 0;
+    height: 100px;
+    width: 100%;
+    overflow: hidden;
+    clip-path: inset(0px 1.5px 0px 1.5px);
+
+    transition: opacity 0.5s ease-in-out;
+}
+
+#real-galaxy:hover #all-thumbnails {
+    opacity: 1;
+}
+
+.thumbnail {
+    position: absolute;
+    left: 100%;
+    padding: 0;
+    margin-right: 1px;
+    height: 100px;
+    width: 25%;
+    float: left;
+    border-radius: 0;
+    border: none;
+}
+
+#arrow-left {
+    position: relative;
+    z-index: 2;
+    float: left;
+    color: white;
+    height: 100%;
+    background-color: #000000;
+    line-height: 100px;
+    vertical-align: middle;
+}
+
+#arrow-right {
+    position: relative;
+    z-index: 2;
+    float: right;
+    color: white;
+    height: 100%;
+    background-color: #000000;
+    line-height: 100px;
+    vertical-align: middle;
+}
+
+ul {
+    padding-left: 0px;
+}
+
+.title-galaxy {
+    font-size: 14px;
 }
 
 .ticks {

@@ -2,6 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Spiral Creator</title>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -16,16 +18,26 @@
                 Create your own spiral galaxy
                 and compare your creation with real ones
             </h2>
-            <div id="spiral_creator">
+            <div id="spiral-creator">
                 <div class="row">
                     <div class="col-md-6">
+                        <h3 class="title-galaxy">My Galaxy</h3>
                         <div id="my-galaxy">
-                            My Galaxy
+
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div id="real-galaxy">Real Galaxy</div>
-                        <img src="images/galaxies/ngc6814.jpg" title="NGC 6814" style="width:100%; height:400px;"/>
+                        <h3 class="title-galaxy">Real Galaxy</h3>
+                        <div id="real-galaxy">
+                            <div id="all-thumbnails">
+                                <div id="arrow-right">
+                                    <span class="glyphicon glyphicon-triangle-right"></span>
+                                </div>
+                                <div id="arrow-left">
+                                    <span class=" glyphicon glyphicon-triangle-left"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -42,8 +54,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
         <script src="./node_modules/randgen/lib/randgen.js"></script>
         <script src="build/spiral.js"></script>
+        <script src="src/real_galaxy.js"></script>
         <script>
-            var spiral_creator = new spiral.SpiralCreator3D("spiral_creator");
+            var spiral_creator = new spiral.SpiralCreator3D("spiral-creator");
         </script>
     </body>
 </html>
