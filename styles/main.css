@@ -60,11 +60,11 @@ h2.subtitle {
 }
 
 #all-thumbnails {
+	position: relative;
     opacity: 0;
     height: 100px;
     width: 100%;
     overflow: hidden;
-    clip-path: inset(0px 1.5px 0px 1.5px);
 
     transition: opacity 0.5s ease-in-out;
 }
