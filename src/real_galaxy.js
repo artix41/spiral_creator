@@ -43,10 +43,12 @@ divRealGalaxy.style.backgroundImage = "url(" + curGalaxy.image + ")";
 
 var divAllThumbnails = document.getElementById("all-thumbnails");
 
-var initLeftPosition = 6; // init at 6% to compensate the margin
 var sizeImage = 24; // in percent
 
-var curLeftPosition = initLeftPosition;
+
+// ============= Initialization =============
+
+var curLeftPosition = 0;
 listGalaxies.forEach(function(galaxy) {
     var img = document.createElement("img");
     img.className = "thumbnail";
@@ -60,6 +62,8 @@ listGalaxies.forEach(function(galaxy) {
     curLeftPosition += sizeImage;
 });
 
+// ============== Mouse hover on arrows ==============
+
 var arrowLeft = document.getElementById("arrow-left");
 var arrowRight = document.getElementById("arrow-right");
 
@@ -67,11 +71,12 @@ var repeaterLeft;
 var repeaterRight;
 
 var shift = 2;
+
 arrowLeft.onmouseover = function() {
     var listThumbnails = Array.from(document.getElementsByClassName("thumbnail"));
     repeaterLeft = setInterval(function() {
         var firstLeftPosition = parseInt(listThumbnails[0].style.left.slice(0,-1))
-        if (firstLeftPosition >= initLeftPosition) {
+        if (firstLeftPosition >= 0) {
             clearInterval(repeaterLeft);
         }
         else {
@@ -89,7 +94,7 @@ arrowRight.onmouseover = function() {
     var listThumbnails = Array.from(document.getElementsByClassName("thumbnail"));
     repeaterRight = setInterval(function() {
         var lastLeftPosition = parseInt(listThumbnails[listThumbnails.length - 1].style.left.slice(0,-1));
-        if (lastLeftPosition <= 70) {
+        if (lastLeftPosition <= 76) {
             clearInterval(repeaterRight);
         }
         else {

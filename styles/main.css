@@ -86,25 +86,37 @@ h2.subtitle {
 }
 
 #arrow-left {
+    width:5%;
+    font-size:1.2em;
+    opacity: 0.5;
     position: relative;
     z-index: 2;
     float: left;
     color: white;
     height: 100%;
-    background-color: #000000;
     line-height: 100px;
     vertical-align: middle;
 }
 
+#arrow-left:hover {
+    opacity: 1;
+}
+
 #arrow-right {
+    width:5%;
+    font-size:1.2em;
+    opacity: 0.5;
     position: relative;
     z-index: 2;
     float: right;
     color: white;
     height: 100%;
-    background-color: #000000;
     line-height: 100px;
     vertical-align: middle;
+}
+
+#arrow-right:hover {
+    opacity: 1;
 }
 
 ul {
