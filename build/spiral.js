@@ -1369,9 +1369,9 @@ SpiralCreator3D.prototype.displayParams = function() {
     var obj = this;
     Object.keys(this.params).forEach(function(p, i) {
         var row = d3.select("#params-galaxy").append("div").attr("class", "row").style("text-align", "left");
-        row.append("div").attr("class", "col-md-3")
+        row.append("div").attr("class", "col-md-6")
         .append("label").attr("class", "param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(obj.params[p].decimals));
-        var slider = row.append("div").attr("class", "col-md-3");
+        var slider = row.append("div").attr("class", "col-md-6");
         Slider(slider, obj.params[p].range,
             function(x) {
                 obj.params[p].value = x;
