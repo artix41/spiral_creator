@@ -101,6 +101,7 @@ h2.subtitle {
     opacity: 1;
 }
 
+
 .thumbnail {
     position: absolute;
     left: 100%;
@@ -169,6 +170,12 @@ ul {
 
 .title-galaxy {
     font-size: 14px;
+}
+
+.explanations img {
+    height: 300px;
+    display: block;
+    margin: 0 auto;
 }
 
 .ticks {

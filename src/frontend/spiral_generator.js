@@ -9,7 +9,7 @@ export function getStarsPosition(params) {
             radius,
             angle,
             params.radiusPerturbation.value * radius,
-            Math.round(params.freqPerturbation.value),
+            Math.round(params.freqPerturbation.value + 1),
             params.noise.value
         ));
         positions = positions.concat(X)

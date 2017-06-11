@@ -15,7 +15,7 @@ function getStarsPosition(params) {
             radius,
             angle,
             params.radiusPerturbation.value * radius,
-            Math.round(params.freqPerturbation.value),
+            Math.round(params.freqPerturbation.value + 1),
             params.noise.value
         ));
         positions = positions.concat(X);
@@ -1270,11 +1270,11 @@ function SpiralCreator3D(div) {
     this.speed = 0.01;
 
     this.defaultParams =   {
-        noise: {label: "Noise", value: 0.01, range: [0.01, 10], scale: d3.scaleLog(), ticks: 3, decimals: 2},
+        noise: {label: "Noise", value: 0.01, range: [0, 10], scale: d3.scaleLinear(), ticks: 4, decimals: 2},
         nbrStarsInTraj: {label: "Number of stars per trajectory", value: 400, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
         nbrTrajectories: {label: "Number of trajectories", value: 3, range: [1, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
-        speed: {label: "Speed", value: 0.001, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        radiusPerturbation: {label: "Radius of perturbation", value: 0.3, range:[0.001, 1], scale: d3.scaleLog(), ticks: 3, decimals: 2},
+        speed: {label: "Speed", value: 0.001, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 7, decimals: 2},
+        radiusPerturbation: {label: "Radius of perturbation", value: 0.3, range:[0, 1], scale: d3.scaleLinear(), ticks: 3, decimals: 2},
         freqPerturbation: {label: "Number of arms", value: 3, range: [0, 10], scale: d3.scaleLinear(), ticks: 10, decimals:0}
     };
     this.params = JSON.parse(JSON.stringify(this.defaultParams));
@@ -1309,7 +1309,7 @@ SpiralCreator3D.prototype.initRenderer = function(){
     this.myGalaxyDiv.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(50, this.widthGalaxy / this.heightGalaxy, 1, 10000);
+    this.camera = new THREE.PerspectiveCamera(50, this.widthGalaxy / this.heightGalaxy, 0.1, 10000);
     this.camera.position.set(0, 0, 500);
     this.scene.add(this.camera);
 
@@ -1347,7 +1347,7 @@ SpiralCreator3D.prototype.initStars = function() {
 
     var obj = this;
     data.forEach(function(d, i) {
-        obj.stars.vertices.push(new THREE.Vector3(obj.xScale(d.x), obj.xScale(d.y), 0));
+        obj.stars.vertices.push(new THREE.Vector3(obj.xScale(d.x), obj.yScale(d.y), 0));
         obj.stars.vertices[i].traj = new Trajectory(d.t, d.radius, d.angle, d.radiusPerturbation, d.freqPerturbation);
         obj.stars.vertices[i].traj = new Trajectory(d.t, d.radius, d.angle, d.radiusPerturbation, d.freqPerturbation);
     });
