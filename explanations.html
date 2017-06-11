@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Spiral Creator</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="styles/main.css"/>
+        <link rel="icon" href="favicon.ico" />
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                     <a class="navbar-brand" href=".">Spiral Creator</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href=".">Simulation</a></li>
+                        <li class="active"><a href="explanations.html">Explanations</a></li>
+                        <li><a href="#">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <img id="logo" src="images/logo/spiral.png" />
+            <h1>Why do spiral galaxies have spiral arms?</h1>
+            <h2 class="subtitle">
+                Understand the model used in the simulation to generate spiral arms
+            </h2>
+
+            <h2>Introduction</h2>
+
+            <p>
+                There are two ways of modelling a galaxy : solving the N-body problem or using a simpler model for the kind of galaxy we try to simulate. The first method consists in simulating gravitational attraction between thousands of stars and seeing the system evolve. The result will be really close to reality, since it uses only the fundamental laws of gravitation (etablished by Newton in the 17th century), without any simplification. However, it demands a huge amount of computational resources to simulate the behaviour of each star taking into account the influence of all other stars. Moreover, it doesn't help us to understand why some patterns, such as spiral arms, appear during the formation of the galaxy. That's why astrophysicists have tried to develop simpler models, that can explain visually the spiral arms pattern that astronomers have been observing in a great amount of galaxies. The more recent and developed one is called <strong>density wave model</strong>, and that's the one we used in our simulation.
+            </p>
+
+            <h2>The density wave model</h2>
+            <h2>Trajectories of stars</h2>
+
+            <p>
+            We admited previously that the trajectory of a star in a spiral galaxy can be modeled by a simple ellipse. However, the real trajectory is a little bit more complicated, since a star is not only influenced by the center, but by all the other stars. In common galaxies, it results a circle
+            </p>
+            
+        </div>
+
+
+        <footer class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        You can find the source code on <a href="https://github.com/artix41/spiral_creator"><span class="fa fa-github"></span> GitHub</a>
+                    </div>
+                    <div class="col-md-6">
+                        Site developed by the clubs <a href="data.ensta.fr">DaTA</a> and <a href="#">GraviTAtion</a>, from <a href="http://www.ensta-paristech.fr/">ENSTA ParisTech</a>.
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+        <script src="./node_modules/randgen/lib/randgen.js"></script>
+        <script src="build/spiral.js"></script>
+        <script src="src/frontend/real_galaxy.js"></script>
+        <script>
+            var spiral_creator = new spiral.SpiralCreator3D("spiral-creator");
+        </script>
+    </body>
+</html>
