@@ -9,13 +9,14 @@ function getStarsPosition(params) {
     var positions = [];
     for (var iTraj = 0; iTraj < params.nbrEllipses.value; iTraj++) {
         var a = iTraj + 1;
-        var b = params.e.value * (iTraj + 1);
+        var b = 1/Math.sqrt(1-Math.pow(params.e.value, 2)) * a;
         var angle = (iTraj / params.nbrEllipses.value) * Math.PI * 2;
+        //var angle = Math.random() * 2 * Math.PI;
         var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(
             a,
             b,
             angle,
-            params.radiusPerturbation.value,
+            (Math.round(params.radiusPerturbation.value)+1)/2,
             params.freqPerturbation.value,
             params.noise.value
         ));
@@ -1273,13 +1274,13 @@ function SpiralCreator3D(div) {
     this.speed = 0.01;
 
     this.params =   {
-        e: {label: "Excentricity", value: 1.3, range:[0.1, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        e: {label: "Excentricity", value: 0, range:[0, 0.6], scale: d3.scaleLinear(), ticks: 3, decimals: 2},
         noise: {label: "Noise", value: 0.8, range: [0.01, 10], scale: d3.scaleLog(), ticks: 3, decimals: 2},
         nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 400, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
         nbrEllipses: {label: "Number of ellipses", value: 100, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
         speed: {label: "Speed", value: 0.02, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
         radiusPerturbation: {label: "Radius of perturbation", value: 1, range:[0.001, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        freqPerturbation: {label: "Frequency of perturbation", value: 10, range: [0, 10], scale: d3.scaleLinear(), ticks: 11, decimal:0}
+        freqPerturbation: {label: "Number of arms", value: 10, range: [0, 10], scale: d3.scaleLinear(), ticks: 5, decimal:0}
     };
 
     this.displayParams();
@@ -1313,7 +1314,6 @@ SpiralCreator3D.prototype.initRenderer = function(){
     this.myGalaxyDiv.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-
     this.camera = new THREE.PerspectiveCamera(50, this.widthGalaxy / this.heightGalaxy, 1, 10000);
     this.camera.position.set(0, 0, 500);
     this.scene.add(this.camera);

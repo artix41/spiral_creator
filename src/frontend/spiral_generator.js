@@ -3,13 +3,14 @@ export function getStarsPosition(params) {
     var positions = [];
     for (var iTraj = 0; iTraj < params.nbrEllipses.value; iTraj++) {
         var a = iTraj + 1;
-        var b = params.e.value * (iTraj + 1);
+        var b = 1/Math.sqrt(1-Math.pow(params.e.value, 2)) * a;
         var angle = (iTraj / params.nbrEllipses.value) * Math.PI * 2;
+        //var angle = Math.random() * 2 * Math.PI;
         var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(
             a,
             b,
             angle,
-            params.radiusPerturbation.value,
+            (Math.round(params.radiusPerturbation.value)+1)/2,
             params.freqPerturbation.value,
             params.noise.value
         ));
