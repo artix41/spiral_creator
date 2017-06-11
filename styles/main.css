@@ -8,6 +8,34 @@ body {
     overflow-x: hidden;
 }
 
+.navbar {
+    background-color: #080810;
+}
+
+p {
+    font-size: 18px;
+    color: #444444;
+    line-height: 1.5;
+}
+
+footer {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #080810;
+    color: #ddd;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+footer a {
+    color: #aaa;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
 img#logo {
     display: block;
     margin: auto;

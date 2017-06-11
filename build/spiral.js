@@ -7,17 +7,15 @@
 function getStarsPosition(params) {
     var t0 = performance.now();
     var positions = [];
-    for (var iTraj = 0; iTraj < params.nbrEllipses.value; iTraj++) {
-        var a = iTraj + 1;
-        var b = 1/Math.sqrt(1-Math.pow(params.e.value, 2)) * a;
-        var angle = (iTraj / params.nbrEllipses.value) * Math.PI * 2;
+    for (var iTraj = 0; iTraj < Math.round(params.nbrTrajectories.value); iTraj++) {
+        var radius = iTraj + 1;
+        var angle = (iTraj / params.nbrTrajectories.value) * Math.PI * 2;
         //var angle = Math.random() * 2 * Math.PI;
-        var X = _.range(params.nbrStarsInEllipse.value).map(() => generateStarOnEllipse(
-            a,
-            b,
+        var X = _.range(params.nbrStarsInTraj.value).map(() => generateStarOnTraj(
+            radius,
             angle,
-            (Math.round(params.radiusPerturbation.value)+1)/2,
-            params.freqPerturbation.value,
+            params.radiusPerturbation.value * radius,
+            Math.round(params.freqPerturbation.value),
             params.noise.value
         ));
         positions = positions.concat(X);
@@ -25,38 +23,36 @@ function getStarsPosition(params) {
     return positions;
 }
 
-function generateStarOnEllipse(a, b, angle, radiusPerturbation, freqPerturbation, noise) {
+function generateStarOnTraj(radius, angle, radiusPerturbation, freqPerturbation, noise) {
     var t = Math.random() * 2 * Math.PI;
-    var noisyA = a + rnorm(0,noise);
-    var noisyB = b + rnorm(0,noise);
-    var position = getPosition(t, a, b, angle, radiusPerturbation, freqPerturbation);
+    var noisyRadius = radius + rnorm(0,noise);
+    var position = getPosition(t, radius, angle, radiusPerturbation, freqPerturbation);
 
-    return {x: position.x, y: position.y, t: t, a: noisyA, b: noisyB, angle: angle,
+    return {x: position.x, y: position.y, t: t, radius: noisyRadius, angle: angle,
             radiusPerturbation: radiusPerturbation, freqPerturbation: freqPerturbation};
 }
 
-function Trajectory(t, a, b, angle, radiusPerturbation, freqPerturbation) {
+function Trajectory(t, radius, angle, radiusPerturbation, freqPerturbation) {
     this.t = t;
-    this.a = a;
-    this.b = b;
+    this.radius = radius;
     this.angle = angle;
     this.radiusPerturbation = radiusPerturbation;
     this.freqPerturbation = freqPerturbation;
 }
 
-function getPosition(t, a, b, angle, radiusPerturbation, freqPerturbation) {
-    var X = [a * Math.cos(t), b * Math.sin(t)];
+function getPosition(t, radius, angle, radiusPerturbation, freqPerturbation) {
+    var X = [radius * Math.cos(t), radius * Math.sin(t)];
+    X[0] += radiusPerturbation * Math.cos(freqPerturbation * t);
+    X[1] += radiusPerturbation * Math.sin(freqPerturbation * t);
     var A = [[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]];
-    var position = numeric.dot(A,X);
 
-    position[0] += radiusPerturbation * Math.cos(2 * freqPerturbation * t);
-    position[1] += radiusPerturbation * Math.sin(2 * freqPerturbation * t);
+    var position = numeric.dot(A,X);
 
     return {x: position[0], y: position[1]};
 }
 
 Trajectory.prototype.getPosition = function() {
-    return getPosition(this.t, this.a, this.b, this.angle, this.radiusPerturbation, this.freqPerturbation);
+    return getPosition(this.t, this.radius, this.angle, this.radiusPerturbation, this.freqPerturbation);
 };
 
 Trajectory.prototype.update = function (speed) {
@@ -1273,16 +1269,15 @@ function SpiralCreator3D(div) {
     this.radiusStar = 5;
     this.speed = 0.01;
 
-    this.params =   {
-        e: {label: "Excentricity", value: 0, range:[0, 0.6], scale: d3.scaleLinear(), ticks: 3, decimals: 2},
-        noise: {label: "Noise", value: 0.8, range: [0.01, 10], scale: d3.scaleLog(), ticks: 3, decimals: 2},
-        nbrStarsInEllipse: {label: "Number of stars per ellipse", value: 400, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
-        nbrEllipses: {label: "Number of ellipses", value: 100, range: [10, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
-        speed: {label: "Speed", value: 0.02, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        radiusPerturbation: {label: "Radius of perturbation", value: 1, range:[0.001, 10], scale: d3.scaleLog(), ticks: 2, decimals: 2},
-        freqPerturbation: {label: "Number of arms", value: 10, range: [0, 10], scale: d3.scaleLinear(), ticks: 5, decimal:0}
+    this.defaultParams =   {
+        noise: {label: "Noise", value: 0.01, range: [0.01, 10], scale: d3.scaleLog(), ticks: 3, decimals: 2},
+        nbrStarsInTraj: {label: "Number of stars per trajectory", value: 400, range: [50, 500], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
+        nbrTrajectories: {label: "Number of trajectories", value: 3, range: [1, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
+        speed: {label: "Speed", value: 0.001, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 2, decimals: 2},
+        radiusPerturbation: {label: "Radius of perturbation", value: 0.3, range:[0.001, 1], scale: d3.scaleLog(), ticks: 3, decimals: 2},
+        freqPerturbation: {label: "Number of arms", value: 3, range: [0, 10], scale: d3.scaleLinear(), ticks: 10, decimals:0}
     };
-
+    this.params = JSON.parse(JSON.stringify(this.defaultParams));
     this.displayParams();
     this.initRenderer();
     this.initStars();
@@ -1353,8 +1348,8 @@ SpiralCreator3D.prototype.initStars = function() {
     var obj = this;
     data.forEach(function(d, i) {
         obj.stars.vertices.push(new THREE.Vector3(obj.xScale(d.x), obj.xScale(d.y), 0));
-        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle, d.radiusPerturbation, d.freqPerturbation);
-        obj.stars.vertices[i].traj = new Trajectory(d.t, d.a, d.b, d.angle, d.radiusPerturbation, d.freqPerturbation);
+        obj.stars.vertices[i].traj = new Trajectory(d.t, d.radius, d.angle, d.radiusPerturbation, d.freqPerturbation);
+        obj.stars.vertices[i].traj = new Trajectory(d.t, d.radius, d.angle, d.radiusPerturbation, d.freqPerturbation);
     });
 
     this.starsSystem = new THREE.Points(this.stars, material);
@@ -1367,12 +1362,13 @@ SpiralCreator3D.prototype.initStars = function() {
 
 SpiralCreator3D.prototype.displayParams = function() {
     var obj = this;
+    var sliderObj = [];
     Object.keys(this.params).forEach(function(p, i) {
         var row = d3.select("#params-galaxy").append("div").attr("class", "row").style("text-align", "left");
         row.append("div").attr("class", "col-md-6")
         .append("label").attr("class", "param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(obj.params[p].decimals));
         var slider = row.append("div").attr("class", "col-md-6");
-        Slider(slider, obj.params[p].range,
+        sliderObj.push(Slider(slider, obj.params[p].range,
             function(x) {
                 obj.params[p].value = x;
                 d3.select(".param" + i).text(obj.params[p].label + " = " + obj.params[p].value.toFixed(obj.params[p].decimals));
@@ -1383,9 +1379,20 @@ SpiralCreator3D.prototype.displayParams = function() {
               'scale': obj.params[p].scale,
               'ticks': obj.params[p].ticks
             }
-        );
+        ));
 
     });
+    d3.select("#params-galaxy").append("button")
+    .attr("type", "button")
+    .attr("class", "btn btn-secondary")
+    .on("click", function() {
+        obj.params = JSON.parse(JSON.stringify(obj.defaultParams));
+        Object.keys(obj.params).forEach(function(p, i) {
+            sliderObj[i].change(obj.params[p].value);
+        });
+        obj.initStars();
+    })
+    .text("Restore default parameters");
 };
 
 exports.SpiralCreator2D = SpiralCreator2D;
