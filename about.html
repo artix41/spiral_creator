@@ -15,51 +15,37 @@
         <nav class="navbar navbar-inverse navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-                     <a class="navbar-brand" href="#">Spiral Creator</a>
+                     <a class="navbar-brand" href=".">Spiral Creator</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href=".">Simulation</a></li>
+                        <li><a href=".">Simulation</a></li>
                         <li><a href="explanations.html">Explanations</a></li>
-                        <li><a href="about.html">About</a></li>
+                        <li class="active"><a href="about.html">About</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <div class="container">
+        <div class="container explanations">
             <img id="logo" src="images/logo/spiral.png" />
-            <h1>Spiral Creator</h1>
-            <h2 class="subtitle">
-                Create your own spiral galaxy
-                and compare your creation with real ones
-            </h2>
-            <div id="spiral-creator">
-                <div class="col-md-6">
-                    <h3 class="title-galaxy">My Galaxy</h3>
+            <h1>About the project</h1>
 
-                    <div id="my-galaxy"></div>
 
-                    <div id="params-galaxy"></div>
-                </div>
+            <h2>Goals of the Spiral Creator</h2>
+            <p>
+                
+            </p>
 
-                <div class="col-md-6">
-                    <h3 class="title-galaxy">Real Galaxy</h3>
 
-                    <div id="galaxy-picture">
-                        <div id="all-thumbnails">
-                            <div id="arrow-right">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                            </div>
-                            <div id="arrow-left">
-                                <span class=" glyphicon glyphicon-chevron-left"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="galaxy-information"></div>
-                </div>
-            </div>
-        </div>
+            <h2>Technology used</h2>
+            <p>
+            	The animation is coded in Javascript and WebGL, using the 3D library <a href="https://threejs.org/">ThreeJS</a>. 
+            </p>
+		</div>
+
+         
+
 
         <footer class="container-fluid">
             <div class="container">
@@ -84,10 +70,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
         <script src="./node_modules/randgen/lib/randgen.js"></script>
-        <script src="build/spiral.js"></script>
-        <script src="src/frontend/real_galaxy.js"></script>
-        <script>
-            var spiral_creator = new spiral.SpiralCreator3D("spiral-creator");
-        </script>
+
     </body>
 </html>

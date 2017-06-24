@@ -173,9 +173,22 @@ ul {
 }
 
 .explanations img {
-    height: 300px;
     display: block;
     margin: 0 auto;
+}
+
+.no-display {
+    display: none;
+}
+
+.section-title .caret {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 15px solid #000000;
+}
+
+.section-title:hover {
+    color: #686860;
 }
 
 .ticks {
@@ -189,13 +202,13 @@ ul {
 }
 
 .track {
-  stroke: #000;
+  stroke: #080810;
   stroke-opacity: 0.3;
   stroke-width: 10px;
 }
 
 .track-inset {
-  stroke: #000;
+  stroke: #080810;
   stroke-width: 8px;
 }
 
