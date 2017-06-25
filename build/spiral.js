@@ -1280,7 +1280,7 @@ function SpiralCreator3D(div) {
     this.defaultParams =   {
         nbrArms: {label: "Number of arms", value: 2, range: [0, 10], scale: d3.scaleLinear(), ticks: 10, decimals:0},
         noise: {label: "Noise", value: 0.4, range: [0, 10], scale: d3.scaleLinear(), ticks: 4, decimals: 2},
-        nbrStarsInTraj: {label: "Number of stars per trajectory", value: 400, range: [50, 2000], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
+        nbrStarsInTraj: {label: "Number of stars per trajectory", value: 400, range: [50, 1000], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
         nbrTrajectories: {label: "Number of trajectories", value: 60, range: [1, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
         speed: {label: "Speed", value: 0.01, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 7, decimals: 2},
         radiusPerturbation: {label: "Radius of perturbation", value: 0.1, range:[0, 1], scale: d3.scaleLinear(), ticks: 3, decimals: 2},

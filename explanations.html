@@ -42,16 +42,53 @@
 
             <h2 class="section-title" onclick="toggler('section-content-1');"><span class="caret"></span> Understanding the model and its parameters</h2>
             <div id="section-content-1" class="no-display">
+                <h3>Trajectory of the stars</h3>
+
                 <p>
-                    The first step to model a galaxy is to determine the trajectory of stars inside the structure. When we consider only one body in the gravitational field of an other one − for exemple the Earth in the gravitational field of the Sun −, the first law of Kepler tells us that its trajectory will be elliptical. In the case of a galaxy, each star is subject to the gravitation not only of the central black hole, but also of the billions of other stars surrounding it. Thus, the trajectory is a bit more complicated, but we can demonstrate under certain assumptions that it can be modeled by a perturbed circle, often called epicycle (the proof is in annexe).  
+                    The first step to model a galaxy is to determine the trajectory of stars inside the structure. When we consider only one body in the gravitational field of an other one − for exemple the Earth in the gravitational field of the Sun −, the first law of Kepler tells us that its trajectory will be elliptical. In the case of a galaxy, each star is subject to the gravitation not only of the central black hole, but also of the billions of other stars surrounding it. Thus, the trajectory is a bit more complicated, but we can demonstrate under certain assumptions that it can be modeled by a perturbed circle, often called epicycle (proof in the following section). 
                 </p>
-                <img src="images/explanations/number_arms.png" height="1000"/>
-                <img src="images/explanations/simple_parameters.png" height="600"/>
+                <figure class="figure">
+                    <img src="images/explanations/epicycle.png" height="500"/>
+                    <figcaption class="figure-caption text-center">Figure 1: example of epicycle, trajectory of a star in the galaxy (source: Wikipedia)</figcaption>
+                </figure>
+
+                <p>
+                    An epicycle consists in making revolutions around a point turning itself in a big circle. The number of rotations around the small circle during one revolution around the big circle is called epicycle frequency and noted $\kappa$. You can see examples of trajectories with different $\kappa$ on the left side of figure 2.
+                </p>
+
+                 <figure class="figure">
+                    <img src="images/explanations/number_arms.png" height="1000"/>
+                    <figcaption class="figure-caption text-center">Figure 2: trajectory forms and the corresponding spiral structures</figcaption>
+                </figure>
+
+                <p>The radius of the small circle corresponds exactly to the parameter <em>Radius of perturbation</em> of the simulation, while $\kappa$ corresponds to the <em>Number of arms</em> (as we will show below).</p>
+
+                <h3>Layout of the trajectories inside the galaxy</h3>
+
+                <p>
+                    We now have to understand why assembling billions of trajectories like that can form spirals. The model we are considering predicts that these trajectories are subject to a shift in angle when the radius increase, as you can see in figure 3 (where we took $\kappa=2$ and a small radius of perturbation).
+                </p>
+
+                 <figure class="figure">
+                    <img src="images/explanations/simple_parameters.png" height="600"/>
+                    <figcaption class="figure-caption text-center">Figure 3: layout of the different trajectories</figcaption>
+                </figure>
+
+                <p>
+                    You can see a spiral forming in regions where the density of stars is the highest. That's why the model is called <em>density wave model</em>. You can now try to increase $\kappa$ (<em>Number of arms</em>) to see directly the number of spirals increasing.
+                </p>
+
+                <h3>Noise</h3>
+
+                <p>
+                    This way to represent spiral galaxies is of course an approximation and real trajectories are much more chaotic. In order to add realism in the final image, we have added a gaussian random noise in the underlying circle of each trajectory. The parameter is the standard deviation of this gaussian noise. 
+                </p>
+
             </div>
 
-            <h2 class="section-title" onclick="toggler('section-content-2');"><span class="caret"></span> Annexe</h2>
+            <h2 class="section-title" onclick="toggler('section-content-2');"><span class="caret"></span> The physics behind it</h2>
             <div id="section-content-2" class="no-display">
-                <h3>Trajectories of stars</h3>
+                <h3>Trajectories of stars : proof</h3>
 
                 <p>
                 We admited previously that the trajectory of a star in a spiral galaxy can be modeled by a simple ellipse. However, the real trajectory is a little bit more complicated, since a star is not only influenced by the center, but by all the other stars. Moreover, it doesn't explain why some galaxies have multiple arms. Actually, the real trajectory is a circle perturbated by an oscillation. Here is a way to prove it :

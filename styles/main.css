@@ -75,6 +75,10 @@ h2.subtitle {
     color: #686860;
 }
 
+figure {
+    margin-bottom: 20px;
+}
+
 #spiral-creator {
     margin: 20px;
     width: 100%;
