@@ -2,10 +2,17 @@
     box-sizing: border-box; /* width does not include padding and border */
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: Arial;
     background-color: rgb(228, 241, 254);
     overflow-x: hidden;
+    position: relative;
+    padding-bottom: 6rem;
+    min-height: 100%;
 }
 
 .navbar {
@@ -19,6 +26,10 @@ p {
 }
 
 footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
     padding-top: 20px;
     padding-bottom: 20px;
     background-color: #080810;
@@ -34,6 +45,10 @@ footer a {
 footer a:hover {
     color: #fff;
     text-decoration: none;
+}
+
+.content {
+    padding-bottom: 40px;
 }
 
 img#logo {
