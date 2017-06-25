@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= title
+  form(id="formUserProfile", method="post", action="")
+      label(for="Pseudo") Pseudo
+      input(type="text", name="Pseudo", id="Pseudo")
+      input(type="submit", value="#{buttonText}")

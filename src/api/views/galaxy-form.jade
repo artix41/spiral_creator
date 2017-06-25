@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    h1= title
+    form(id="formUserProfile", method="post", action="")
+        label(for="Name") Name
+        input(type="text", name="name", id="name")
+
+        label(for="image") Image
+        input(type="text", name="image", id="image")
+
+        label(for="constellation") Constellation
+        input(type="text", name="constellation", id="constellation")
+
+        label(for="distance") Distance
+        input(type="text", name="distance", id="distance")
+
+        label(for="mass") Mass
+        input(type="text", name="mass", id="mass")
+
+        label(for="dimension") Dimension
+        input(type="text", name="dimension", id="dimension")
+
+        label(for="otherNames") Other names
+        input(type="text", name="otherNames", id="otherNames")
+
+        label(for="description") Description
+        input(type="text", name="description", id="description")
+
+        label(for="type") Type
+        select(name="type")
+            for choice in typeChoices
+                option(value=choice) #{choice}
+
+        label(for="hubbleSequence") Hubble sequence
+        select(name="hubbleSequence")
+            for choice in hubbleChoices
+                option(value=choice) #{choice}
+
+        input(type="submit", value="#{buttonText}", class="submit")

@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1 Spiral Galaxy API
+    p= pseudo
+        h3 Actions
+        ul
+            li
+                a(href="/galaxy/new") Add a galaxy
+            li
+                a(href="/user/delete") Delete #{pseudo}
+            li
+                a(href="/logout") Logout #{pseudo}
