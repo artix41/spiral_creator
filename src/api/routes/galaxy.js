@@ -6,45 +6,57 @@ var app = express();
 var Galaxy = mongoose.model('Galaxy');
 
 exports.create = function(req, res) {
-    res.render('galaxy-form', {
+    console.log(req.session)
+    if (!req.session.loggedIn){
+        res.redirect('/login');
+    }
+    else {
+        res.render('galaxy-form', {
         title: 'Add galaxy',
         buttonText: 'Add galaxy',
         hubbleChoices: ['Sa', 'Sb', 'Sc', 'SBa', 'SBb', 'SBc', 'E0', 'E1',
                         'E2', 'E3', 'E4', 'E5', 'E6', 'E7'],
         typeChoices: ['spiral', 'elliptical', 'lenticular', 'irregular']
     })
+    }
+    
 };
 
 exports.doCreate = function(req, res) {
-    console.log("req", req.body);
-    Galaxy.create({
-        name: req.body.name,
-        image: req.body.image,
-        constellation: req.body.constellation,
-        distance: req.body.distance,
-        dimension: req.body.dimension,
-        mass: req.body.mass,
-        otherNames: req.body.otherNames,
-        image: req.body.image,
-        description: req.body.description,
-        type: req.body.type,
-        hubbleSequence: req.body.hubbleSequence
-    },
-    function(err, galaxy) {
-        if (err) {
-            console.log(err);
-            if (err.code == 11000) {
-                res.redirect("/galaxy/new?exists=true");
+    if (!req.session.loggedIn){
+        res.redirect('/login');
+    }
+    else {
+        Galaxy.create({
+            name: req.body.name,
+            image: req.body.image,
+            constellation: req.body.constellation,
+            distance: req.body.distance,
+            dimension: req.body.dimension,
+            mass: req.body.mass,
+            otherNames: req.body.otherNames,
+            image: req.body.image,
+            description: req.body.description,
+            type: req.body.type,
+            hubbleSequence: req.body.hubbleSequence
+        },
+        function(err, galaxy) {
+            if (err) {
+                console.log(err);
+                if (err.code == 11000) {
+                    res.redirect("/galaxy/new?exists=true");
+                }
+                else {
+                    res.redirect("/galaxy/new?error=true");
+                }
             }
             else {
-                res.redirect("/galaxy/new?error=true");
+                console.log("Galaxy added and saved: " + galaxy);
+                res.redirect('/galaxy/new');
             }
-        }
-        else {
-            console.log("Galaxy added and saved: " + galaxy);
-            res.redirect('/galaxy/new');
-        }
-    })
+        })
+    }
+    
 };
 
 exports.search = function(req, res) {
@@ -75,9 +87,10 @@ exports.search = function(req, res) {
 };
 
 exports.delete = function(req, res) {
-    console.log(req.params.id)
-    console.log()
-    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (!req.session.loggedIn){
+        res.redirect('/login');
+    }
+    else if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
         res.send("<b>Error : Invalid ID</b>");
     }
     else {

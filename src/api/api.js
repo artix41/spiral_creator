@@ -43,8 +43,8 @@ app.get('/login', user.login);
 app.post('/login', user.doLogin);
 /*app.get('/user/edit', user.edit);
 app.post('/user/edit', user.doEdit);
-app.post('/user/delete', user.confirmDelete);
-app.post('/logout', user.doLogout);*/
+app.post('/user/delete', user.confirmDelete);*/
+app.get('/logout', user.doLogout);
 
 // app.get('/galaxy', galaxy.index);
 app.get('/galaxy/search', galaxy.search);

@@ -65,7 +65,7 @@ exports.doLogin = function(req, res) {
     },
     null,
     function(err, user) {
-        if (err) {
+        if (err || !user) {
             console.log("Error : ", err);
             res.redirect("/login?error=true");
         }
@@ -81,3 +81,14 @@ exports.doLogin = function(req, res) {
         }
     });
 }
+
+exports.doLogout = function(req, res) {
+    if (req.session.loggedIn) {
+        req.session.user = {};
+        req.session.loggedIn = false;
+        req.session.save();
+    }
+
+    res.redirect('/login')
+}
+
