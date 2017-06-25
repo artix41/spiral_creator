@@ -5,6 +5,10 @@ block content
     form(id="formUserLogin", method="post", action="")
         label(for="pseudo") Pseudo
         input(type="text", name="pseudo", id="pseudo")
-        input(type="submit", value="Login")
+
+        label(for="password") Password
+        input(type="password", name="password", id="password")
+
+        input(type="submit", value="Login" class="submit")
     p Or new users can 
         a(href="/user/new") sign up

@@ -1,8 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  form(id="formUserProfile", method="post", action="")
-      label(for="pseudo") Pseudo
-      input(type="text", name="pseudo", id="pseudo")
-      input(type="submit", value="#{buttonText}" class="submit")
+    h1= title
+    form(id="formUserProfile", method="post", action="")
+        label(for="pseudo") Pseudo
+        input(type="text", name="pseudo", id="pseudo")
+
+        label(for="password") Password
+        input(type="password", name="password", id="password")
+        
+        input(type="submit", value="#{buttonText}" class="submit")

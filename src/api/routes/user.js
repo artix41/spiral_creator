@@ -2,8 +2,13 @@ var mongoose = require('mongoose');
 var express = require('express');
 
 var app = express();
+var SHA256 = require("crypto-js/sha256");
 
 var User = mongoose.model('User');
+
+function encrypt(message) {
+    return SHA256(message).toString();
+}
 
 exports.create = function(req, res) {
     res.render('user-form', {
@@ -16,6 +21,7 @@ exports.doCreate = function(req, res) {
     console.log("req", req.body);
     User.create({
             pseudo: req.body.pseudo,
+            password: encrypt(req.body.password)
         },
         function(err, user) {
             if (err) {
@@ -56,12 +62,18 @@ exports.index = function (req, res) {
 }
 
 exports.login = function (req, res) {
-    res.render('login-form', {title: 'Log in'})
+    if(req.session.loggedIn === true) {
+        res.redirect('/user');
+    }
+    else {
+        res.render('login-form', {title: 'Log in'});
+    }
 }
 
 exports.doLogin = function(req, res) {
     User.findOne({
-        pseudo: req.body.pseudo
+        pseudo: req.body.pseudo,
+        password: encrypt(req.body.password)
     },
     null,
     function(err, user) {
