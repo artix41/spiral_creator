@@ -21,12 +21,17 @@
     "cjs-to-es6": "^1.0.1",
     "cookie-parser": "^1.4.3",
     "crypto-js": "^3.1.8",
+    "d3": "^4.9.1",
     "express": "^4.15.2",
     "express-session": "^1.15.3",
+    "font-awesome": "^4.7.0",
     "http-server": "^0.9.0",
     "jade": "^1.11.0",
+    "lodash": "^4.17.4",
     "mongoose": "^4.9.9",
+    "numeric": "^1.2.6",
     "randgen": "^0.1.0",
+    "three": "^0.86.0",
     "three-orbit-controls": "^82.1.0"
   }
 }

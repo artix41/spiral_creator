@@ -12,17 +12,9 @@ export function SpiralCreator3D(div) {
     this.radiusStar = 5;
     this.speed = 0.01;
 
-    this.simpleParams =   {
-        noise: {label: "Noise", value: 0.01, range: [0, 10], scale: d3.scaleLinear(), ticks: 4, decimals: 2},
-        nbrStarsInTraj: {label: "Number of stars per trajectory", value: 400, range: [50, 700], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
-        nbrTrajectories: {label: "Number of trajectories", value: 3, range: [1, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
-        speed: {label: "Speed", value: 0.001, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 7, decimals: 2},
-        radiusPerturbation: {label: "Radius of perturbation", value: 0.3, range:[0, 1], scale: d3.scaleLinear(), ticks: 3, decimals: 2},
-        nbrArms: {label: "Number of arms", value: 3, range: [0, 10], scale: d3.scaleLinear(), ticks: 10, decimals:0}
-    };
     this.defaultParams =   {
         nbrArms: {label: "Number of arms", value: 2, range: [0, 10], scale: d3.scaleLinear(), ticks: 10, decimals:0},
-        noise: {label: "Noise", value: 0.4, range: [0, 10], scale: d3.scaleLinear(), ticks: 4, decimals: 2},
+        noise: {label: "Noise", value: 0.4, range: [0, 10], scale: d3.scaleLinear(), ticks: 4, decimals: 1},
         nbrStarsInTraj: {label: "Number of stars per trajectory", value: 400, range: [50, 1000], scale: d3.scaleLinear(), ticks: 5, decimals: 0},
         nbrTrajectories: {label: "Number of trajectories", value: 60, range: [1, 100], scale: d3.scaleLinear(), ticks: 10, decimals: 0},
         speed: {label: "Speed", value: 0.01, range:[0.001, 0.1], scale: d3.scaleLog(), ticks: 7, decimals: 2},
@@ -54,10 +46,18 @@ SpiralCreator3D.prototype.clearScene = function() {
 
 };
 
-SpiralCreator3D.prototype.initRenderer = function(){
+SpiralCreator3D.prototype.initRenderer = function(width, height){
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(this.widthGalaxy, this.heightGalaxy);
-    this.myGalaxyDiv.appendChild(this.renderer.domElement);
+    var oldCanvas = this.myGalaxyDiv.getElementsByTagName("canvas")[0]
+
+    if (!oldCanvas) {
+        this.myGalaxyDiv.appendChild(this.renderer.domElement);
+    }
+    else {
+        oldCanvas.parentNode.replaceChild(this.renderer.domElement, oldCanvas)
+    }
+
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(50, this.widthGalaxy / this.heightGalaxy, 0.1, 10000);
@@ -75,6 +75,12 @@ SpiralCreator3D.prototype.initRenderer = function(){
 
 SpiralCreator3D.prototype.initStars = function() {
     var spriteMap = new THREE.TextureLoader().load("particle.png");
+    //Filters
+    spriteMap.anisotropy = this.renderer.getMaxAnisotrop
+    spriteMap.magFilter = THREE.LinearFilter;
+    spriteMap.minFilter = THREE.LinearMipMapLinearFilter;
+
+
     var material = new THREE.PointsMaterial({
         map: spriteMap,
         color: 0xffffff,
@@ -113,6 +119,20 @@ SpiralCreator3D.prototype.initStars = function() {
 
 SpiralCreator3D.prototype.displayParams = function() {
     var obj = this;
+
+    var gui = new dat.GUI();
+
+    Object.keys(this.params).forEach(function(param, i) {
+        console.log("test")
+        var p = obj.params[param]
+        gui.add(obj.params[param], 'value', p.range[0], p.range[1]).name(p.label)
+        .step(Math.pow(10,-p.decimals))
+        .onFinishChange(function() {
+            obj.initStars()
+        })
+    });
+
+
     var sliderObj = []
     Object.keys(this.params).forEach(function(p, i) {
         var row = d3.select("#params-galaxy").append("div").attr("class", "row").style("text-align", "left");
