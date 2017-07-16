@@ -1377,7 +1377,7 @@ SpiralCreator3D.prototype.initStars = function() {
 SpiralCreator3D.prototype.displayParams = function() {
     var obj = this;
 
-    var gui = new dat.GUI();
+    var gui = new dat.GUI({width: 400});
     var guiElement = document.getElementsByClassName("dg ac")[0];
 
     guiElement.style.position = "fixed";
