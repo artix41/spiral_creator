@@ -1378,6 +1378,14 @@ SpiralCreator3D.prototype.displayParams = function() {
     var obj = this;
 
     var gui = new dat.GUI();
+    var guiElement = document.getElementsByClassName("dg ac")[0];
+
+    guiElement.style.position = "fixed";
+    guiElement.style.top = 0;
+    guiElement.style.bottom = 0;
+    guiElement.style.right = 0;
+    guiElement.style.zIndex = 1002;
+    guiElement.style.display = "none";
 
     Object.keys(this.params).forEach(function(param, i) {
         console.log("test");
@@ -1388,6 +1396,7 @@ SpiralCreator3D.prototype.displayParams = function() {
             obj.initStars();
         });
     });
+    //$("#gui-params").detach().appendTo("#my-galaxy");
 
 
     var sliderObj = [];

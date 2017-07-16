@@ -94,12 +94,26 @@
             var widthCanvas = spiral_creator.widthGalaxy;
             var heightCanvas = spiral_creator.heightGalaxy;
 
-            document.addEventListener('mozfullscreenchange', function() {
-                on_fullscreen_change(widthCanvas, heightCanvas, spiral_creator)
-            });
-            document.addEventListener('webkitfullscreenchange', function() {
-                on_fullscreen_change(widthCanvas, heightCanvas, spiral_creator)
-            });
+            function full() {
+                resizeToFull(spiral_creator)
+            }
+
+            document.addEventListener('keydown', (event) => {
+                const keyName = event.key;
+
+                if (keyName === 'Escape') {
+                    resizeToNormal(spiral_creator, widthCanvas, heightCanvas);
+                    return;
+                }
+
+            }, false);
+
+            // document.addEventListener('mozfullscreenchange', function() {
+            //     on_fullscreen_change(widthCanvas, heightCanvas, spiral_creator)
+            // });
+            // document.addEventListener('webkitfullscreenchange', function() {
+            //     on_fullscreen_change(widthCanvas, heightCanvas, spiral_creator)
+            // });
 
         </script>
     </body>
