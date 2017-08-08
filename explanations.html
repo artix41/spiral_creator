@@ -45,7 +45,7 @@
                 <h3>Trajectory of the stars</h3>
 
                 <p>
-                    The first step to model a galaxy is to determine the trajectory of stars inside the structure. When we consider only one body in the gravitational field of an other one − for exemple the Earth in the gravitational field of the Sun −, the first law of Kepler tells us that its trajectory will be elliptical. In the case of a galaxy, each star is subject to the gravitation not only of the central black hole, but also of the billions of other stars surrounding it. Thus, the trajectory is a bit more complicated, but we can demonstrate under certain assumptions that it can be modeled by a perturbed circle, often called epicycle (proof in the following section). 
+                    The first step to model a galaxy is to determine the trajectory of stars inside the structure. When we consider only one body in the gravitational field of an other one − for exemple the Earth in the gravitational field of the Sun −, the first law of Kepler tells us that its trajectory will be elliptical. In the case of a galaxy, each star is subject to the gravitation not only of the central black hole, but also of the billions of other stars surrounding it. Thus, the trajectory is a bit more complicated, but we can demonstrate under certain assumptions that it can be modeled by a perturbed circle, often called epicycle (proof in the following section).
                 </p>
                 <figure class="figure">
                     <img src="images/explanations/epicycle.png" height="500"/>
@@ -81,7 +81,7 @@
                 <h3>Noise</h3>
 
                 <p>
-                    This way to represent spiral galaxies is of course an approximation and real trajectories are much more chaotic. In order to add realism in the final image, we have added a gaussian random noise in the underlying circle of each trajectory. The parameter is the standard deviation of this gaussian noise. 
+                    This way to represent spiral galaxies is of course an approximation and real trajectories are much more chaotic. In order to add realism in the final image, we have added a gaussian random noise in the underlying circle of each trajectory. The parameter is the standard deviation of this gaussian noise.
                 </p>
 
             </div>
@@ -113,12 +113,12 @@
                 \]
                 a simple calculus gives
                 \[
-                \frac{d\mathbf{r}}{dt}=\dot{R}\mathbf{e}_{R}+R\dot{\varphi}\mathbf{e} 
-                _{\varphi}+\dot{z}\mathbf{e}_{z} 
+                \frac{d\mathbf{r}}{dt}=\dot{R}\mathbf{e}_{R}+R\dot{\varphi}\mathbf{e}
+                _{\varphi}+\dot{z}\mathbf{e}_{z}
                 \]
-                then the lagrangian writes 
+                then the lagrangian writes
                 \[
-                \mathcal{L=}\frac{1}{2}m\left(  \dot{R}^{2}+R^{2}\dot{\varphi}^{2}+\dot{z} 
+                \mathcal{L=}\frac{1}{2}m\left(  \dot{R}^{2}+R^{2}\dot{\varphi}^{2}+\dot{z}
                 ^{2}\right)  -m\psi(R,z)
                 \]
                 Lagrange's equations
@@ -127,18 +127,18 @@
                 -\frac{\partial \mathcal{L}}{\partial q}=0
                 \]
                 has to be written for each generalized coordinates of the test particle namely
-                $q=R,\varphi$ and $z$. They are 
+                $q=R,\varphi$ and $z$. They are
                 \begin{equation}
                 \left \{
                 \begin{array}
-                [c]{l} 
+                [c]{l}
                 m\ddot{R}-mR\dot{\varphi}^{2}+m\dfrac{\partial \psi}{\partial R}=0\\
                 \\
                 \dfrac{d}{dt}\left(  mR^{2}\dot{\varphi}\right)  =0\\
                 \\
                 m\ddot{z}+m\dfrac{\partial \psi}{\partial z}=0
                 \end{array}
-                \right.  
+                \right.
                 \label{system}
                 \end{equation}
                 These equations are the ones of the motion of the particle (a star...) in a
@@ -151,7 +151,7 @@
                 \]
                 as it could be seen in the second equation of the system above, the $z-$component of $\mathbf{L}$, namely
                 \[
-                L_{z}=\mathbf{L}.\mathbf{e}_{z}=mR^{2}\dot{\varphi}:=mJ_{z} 
+                L_{z}=\mathbf{L}.\mathbf{e}_{z}=mR^{2}\dot{\varphi}:=mJ_{z}
                 \]
                 is conserved. It is a well known property of systems with this kind of
                 symmetry (Noether's Theorem).
@@ -163,23 +163,23 @@
                 [c]{lll}
                 \ddot{R} & = & \dfrac{J_{z}^{2}}{R^{3}}-\dfrac{\partial \psi}{\partial R}\\
                 &  & \\
-                \ddot{z} & = & -\dfrac{\partial \psi}{\partial z} 
+                \ddot{z} & = & -\dfrac{\partial \psi}{\partial z}
                 \end{array}
                 \right.
                 \]
                 Using the effective potential
                 \[
-                \psi_{e}\left(  R,z\right)  :=\psi \left(  R,z\right)  +\frac{J_{z}^{2}} 
-                {2R^{2}} 
+                \psi_{e}\left(  R,z\right)  :=\psi \left(  R,z\right)  +\frac{J_{z}^{2}}
+                {2R^{2}}
                 \]
                 we get
                 \begin{equation}
                 \left \{
                 \begin{array}
-                [c]{lll} 
+                [c]{lll}
                 \ddot{R} & = & -\dfrac{\partial \psi_{e}}{\partial R}\\
                 &  & \\
-                \ddot{z} & = & -\dfrac{\partial \psi_{e}}{\partial z} 
+                \ddot{z} & = & -\dfrac{\partial \psi_{e}}{\partial z}
                 \end{array}
                 \right.  \label{eqmvtpotsym}
                 \end{equation}
@@ -188,20 +188,20 @@
                 <ul>
 
                 <li><p>
-                    The equilibrium condition for $z\left(  t\right)  $ is given by 
+                    The equilibrium condition for $z\left(  t\right)  $ is given by
                     \[
                     \ddot{z}\equiv0\Rightarrow \dfrac{\partial \psi_{e}}{\partial z}=\dfrac
                     {\partial \psi}{\partial z}\equiv0.
                     \]
-                    In the initial hypothesis, the potential $\psi \left(  R,z\right)$ is an even 
+                    In the initial hypothesis, the potential $\psi \left(  R,z\right)$ is an even
                     function in the $z$ variable: spiral galaxies are symmetric around the plane $z=0$.
-                    The partial derivative $\dfrac{\partial \psi}{\partial z}$ is then an odd function. 
-                    In order to fulfill the equilibrium condition, the motion has to take place in 
+                    The partial derivative $\dfrac{\partial \psi}{\partial z}$ is then an odd function.
+                    In order to fulfill the equilibrium condition, the motion has to take place in
                     the $z=0$ plane.
                </p></li>
 
                 <li><p>
-                    The equilibrium condition for $R\left(  t\right)  $ is given by 
+                    The equilibrium condition for $R\left(  t\right)  $ is given by
                     \[
                     \ddot{R}\equiv0\Rightarrow \dfrac{\partial \psi_{e}}{\partial R}=\dfrac
                     {J_{z}^{2}}{R^{3}}-\dfrac{\partial \psi}{\partial R}\equiv0.
@@ -211,11 +211,11 @@
                     }_{o}$ are two constants, the position vector is always orthoradial and
                     centrifugal : $\mathbf{r}=R_{o}\mathbf{e}_{R}$. The velocity vector is
                     tangential and constant $\mathbf{v}=R_{o}\dot{\varphi}_{o}\mathbf{e}_{\varphi
-                    }$. The acceleration is orthoradial and centripetal: $\mathbf{a}=-R_{o} 
+                    }$. The acceleration is orthoradial and centripetal: $\mathbf{a}=-R_{o}
                     \dot{\varphi}_{o}^{2}\mathbf{e}_{R}$ .$\ $The orthoradial component of the
                     Newton Law then writes
                     \[
-                    -R_{o}\dot{\varphi}_{o}^{2}=-\dfrac{\partial \psi}{\partial R} 
+                    -R_{o}\dot{\varphi}_{o}^{2}=-\dfrac{\partial \psi}{\partial R}
                     \]
                     which corresponds to $\ddot{R}\equiv0$.
                 </p></li>
@@ -229,15 +229,15 @@
                 writing the Taylor expansion of the effective potential. Let  $\rho \left(
                 t\right)  =R\left(  t\right)  -R^{\ast}$ and $\psi_{e}^{\ast}=\psi_{e}\left(
                 R^{\ast},0\right)  =cst$, we have
-                \[ 
+                \[
                 \begin{array}
-                [c]{lll} 
+                [c]{lll}
                 \psi_{e}\left(  R,z\right)   & = & \psi_{e}^{\ast}+\rho \left.  \frac
                 {\partial \psi_{eff}}{\partial R}\right \vert _{R^{\ast},\text{ }0}+z\left.
                 \frac{\partial \psi_{eff}}{\partial z}\right \vert _{R^{\ast},\text{ }0}\\
                 &  & +\frac{1}{2}\left[  \rho z\left.  \frac{\partial^{2}\psi_{eff}}{\partial
                 R\partial z}\right \vert _{R^{\ast},\text{ }0}+\rho^{2}\left.  \frac
-                {\partial^{2}\psi_{eff}}{\partial R^{2}}\right \vert _{R^{\ast},\text{ } 
+                {\partial^{2}\psi_{eff}}{\partial R^{2}}\right \vert _{R^{\ast},\text{ }
                 0}+z^{2}\left.  \frac{\partial^{2}\psi_{eff}}{\partial z^{2}}\right \vert
                 \right]  \\
                 &  & +O\left(  z\rho^{2}\right)
@@ -251,8 +251,8 @@
                 \[
                 \left(  2\pi \kappa \right)  ^{2}=\left.  \frac{\partial^{2}\psi_{e}}{\partial
                 R^{2}}\right \vert _{R^{\ast},\text{ }0}\qquad \text{and} \qquad \left(
-                2\pi \omega \right)  ^{2}=\left.  \frac{\partial^{2}\psi_{e}}{\partial z^{2} 
-                }\right \vert _{R^{\ast},\text{ }0} 
+                2\pi \omega \right)  ^{2}=\left.  \frac{\partial^{2}\psi_{e}}{\partial z^{2}
+                }\right \vert _{R^{\ast},\text{ }0}
                 \]
                 named respectively  the epicycle ($\kappa$) and vertical ($\omega$) frequency.
                 The epicycle frequency has an interesting property in the special case of
@@ -273,7 +273,7 @@
                 \[
                 \left \{
                 \begin{array}
-                [c]{lll} 
+                [c]{lll}
                 \ddot{R} & = & -\left(  2\pi \kappa \right)  ^{2}\left(  R-R^{\ast}\right)  \\
                 &  & \\
                 \ddot{z} & = & -\left(  2\pi \omega \right)  ^{2}z
@@ -284,7 +284,7 @@
                 \begin{equation}
                 \left \{
                 \begin{array}
-                [c]{lll} 
+                [c]{lll}
                 \rho & = & \Upsilon \cos \left(  2\pi \kappa t+\alpha \right)  \\
                 &  & \\
                 z & = & Z\cos \left(  2\pi \omega t+\beta \right)
@@ -299,7 +299,7 @@
                 galactic potential, a large amount of data tell us that $\  \kappa \simeq2$.
                 This special value of the epicycle frequency confers to the perturbed orbit a
                 special form which look like to an ellipse. The great axis of this false
-                ellipse could be $a=R^{\ast}+\Upsilon$ and the short axis $b=R^{\ast} 
+                ellipse could be $a=R^{\ast}+\Upsilon$ and the short axis $b=R^{\ast}
                 -\Upsilon$. The eccentricity of this ellipse should be $e=\sqrt{1-\left(
                 \frac{b}{a}\right)  ^{2}\text{ }}$. When $\varepsilon=\frac{\left \vert
                 \Upsilon \right \vert }{R^{\ast}}\ll1$ it becomes $e\simeq2\sqrt{\varepsilon}$.
@@ -347,7 +347,7 @@
         <script src="./node_modules/randgen/lib/randgen.js"></script>
         <script type="text/javascript">
             function toggler(divId) {
-                $("#"+divId).toggle(); 
+                $("#"+divId).toggle();
             }
         </script>
         <script type="text/x-mathjax-config">
@@ -364,6 +364,15 @@
             });
         </script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+        </script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-104256100-1', 'auto');
+            ga('send', 'pageview');
         </script>
     </body>
 </html>
