@@ -139,7 +139,6 @@ SpiralCreator3D.prototype.displayParams = function() {
             obj.initStars()
         })
     });
-    //$("#gui-params").detach().appendTo("#my-galaxy");
 
 
     var sliderObj = []
